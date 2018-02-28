@@ -22,7 +22,7 @@ class SerialListener(object):
             raise TypeError('Attribute observer is not a subclass of SerialObserver')
 
     def detach(self, observer):
-        if issubclass(observer, SerialObserver.SerialObserver):
+        if isinstance(observer, SerialObserver.SerialObserver):
             self.observers.remove(observer)
         else:
             raise TypeError('Attribute observer is not a subclass of SerialObserver')
