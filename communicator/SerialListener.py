@@ -2,7 +2,7 @@ import serial
 import SerialObserver
 
 
-class SerialListener:
+class SerialListener(object):
     """\
     Class which listens to the serial UART port of the raspberry pi and informs observers
     """

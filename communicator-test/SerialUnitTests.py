@@ -41,6 +41,7 @@ class TestSerialListener(unittest.TestCase):
 class TestObserver(SerialObserver):
     def __init__(self):
         super(TestObserver, self).__init__()
+        pass
 
     def update(self, received_message):
         print received_message
