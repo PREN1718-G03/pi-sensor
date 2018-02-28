@@ -1,12 +1,13 @@
 import serial
 import logging
 
+
 class SerialSender:
     """\
     Serial sending class, used to send messages to the MC of the ETs
     """
 
-    def __int__(self):
+    def __init__(self):
         self.ser = serial.Serial('/dev/serial0')
         self.ser.parity = serial.PARITY_NONE
         self.ser.stopbits = serial.STOPBITS_ONE
