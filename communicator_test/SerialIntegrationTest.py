@@ -2,6 +2,7 @@ from communicator.SerialInterfaceObserver import SerialInterfaceObserver
 from communicator.SerialInterfaceListener import SerialInterfaceListener
 from communicator.SerialInterfaceSender import SerialInterfaceSender
 import unittest
+import time
 
 
 class TestIntegration(unittest.TestCase):
@@ -18,16 +19,19 @@ class TestIntegration(unittest.TestCase):
         self.listener.attach(self.observer2)
         self.listener.attach(self.observer3)
 
+        self.listener.start()
+
     def testSend(self):
         test_message = 'This is a Test123'
         test_result = False
         self.sender.send_message(test_message)
-        if test_message == self.observer1.get_stored_message() & test_message == self.observer2.get_stored_message() & test_message == self.observer3.get_stored_message():
+        time.sleep(2)
+        if test_message == self.observer1.get_stored_message() and test_message == self.observer2.get_stored_message() and test_message == self.observer3.get_stored_message():
             test_result = True
         assert test_result
 
     def tearDown(self):
-        pass
+        self.listener.stop()
 
 
 class TestObserver(SerialInterfaceObserver):
@@ -37,7 +41,7 @@ class TestObserver(SerialInterfaceObserver):
         self.stored_message = ''
 
     def update(self, received_message):
-        print self + received_message
+        print str(self) + str(received_message)
         self.stored_message = received_message
 
     def get_stored_message(self):
