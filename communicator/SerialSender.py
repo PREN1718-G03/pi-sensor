@@ -15,15 +15,15 @@ class SerialSender(object):
         self.ser.timeout = 1
         self.logger = logging.getLogger(__name__)
 
-    def _writeString(self, messageString):
-        if (isinstance(messageString, str)):
-            self.ser.write(messageString)
+    def _write_string(self, message_string):
+        if isinstance(message_string, str):
+            self.ser.write(message_string)
         else:
             raise TypeError('Variable messageString is not of type String')
 
-    def sendMessage(self, message):
+    def send_message(self, message):
         try:
-            self._writeString(str(message))
+            self._write_string(str(message))
         except TypeError as error:
             self.logger.error(error)
             raise
