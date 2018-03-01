@@ -7,14 +7,13 @@ import time
 
 class TestIntegration(unittest.TestCase):
     def setUp(self):
-        self.listener = SerialInterfaceListener()
-
         self.observer1 = TestObserver()
         self.observer2 = TestObserver()
         self.observer3 = TestObserver()
 
         self.sender = SerialInterfaceSender()
 
+        self.listener = SerialInterfaceListener()
         self.listener.attach(self.observer1)
         self.listener.attach(self.observer2)
         self.listener.attach(self.observer3)
