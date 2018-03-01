@@ -1,11 +1,13 @@
 import serial
 import logging
+from SingletonMetaclass import Singleton
 
 
 class SerialInterfaceSender(object):
     """\
     Serial sending class, used to send messages to the MC of the ETs
     """
+    __metaclass__ = Singleton
 
     def __init__(self):
         self.ser = serial.Serial('/dev/serial0')
