@@ -2,7 +2,7 @@ import serial
 import logging
 
 
-class SerialSender(object):
+class SerialInterfaceSender(object):
     """\
     Serial sending class, used to send messages to the MC of the ETs
     """

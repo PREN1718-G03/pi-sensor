@@ -1,8 +1,8 @@
 import serial
-import SerialObserver
+import SerialInterfaceObserver
 
 
-class SerialListener(object):
+class SerialInterfaceListener(object):
     """\
     Class which listens to the serial UART port of the raspberry pi and informs observers
     """
@@ -16,13 +16,13 @@ class SerialListener(object):
         self.observers = []
 
     def attach(self, observer):
-        if isinstance(observer, SerialObserver.SerialObserver):
+        if isinstance(observer, SerialInterfaceObserver.SerialInterfaceObserver):
             self.observers.append(observer)
         else:
             raise TypeError('Attribute observer is not a subclass of SerialObserver')
 
     def detach(self, observer):
-        if isinstance(observer, SerialObserver.SerialObserver):
+        if isinstance(observer, SerialInterfaceObserver.SerialInterfaceObserver):
             self.observers.remove(observer)
         else:
             raise TypeError('Attribute observer is not a subclass of SerialObserver')

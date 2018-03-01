@@ -1,7 +1,7 @@
 import abc
 
 
-class SerialObserver(object):
+class SerialInterfaceObserver(object):
     """\
     Abstract class for the SerialListener
     """
