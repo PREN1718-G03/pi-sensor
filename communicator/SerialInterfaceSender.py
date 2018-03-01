@@ -15,7 +15,6 @@ class SerialInterfaceSender(object):
         self.ser.stopbits = serial.STOPBITS_ONE
         self.ser.bytesize = serial.EIGHTBITS
         self.ser.timeout = 1
-        self.logger = logging.getLogger(__name__)
 
     def _write_string(self, message_string):
         if isinstance(message_string, str):
