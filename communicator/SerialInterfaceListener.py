@@ -3,6 +3,7 @@ from SingletonMetaclass import Singleton
 import serial
 import threading
 
+
 class SerialInterfaceListener(threading.Thread):
     """\
     Class which listens to the serial UART port of the raspberry pi and informs observers
