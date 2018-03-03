@@ -1,7 +1,8 @@
 import unittest
 from camera_sensor.TargetModel import TargetModel
 
-class TestTargetModel(TestCase):
+
+class TestTargetModel(unittest.TestCase):
     def setUp(self):
         pass
 
@@ -25,15 +26,28 @@ class TestTargetModel(TestCase):
 
     @unittest.expectedFailure
     def testConstructorTarget_foundBogusAttribute(self):
-        self.fail()
+        target_found = None
+        polygons = [1, 2, 3]
+        distance = -1.0
+        TargetModel(target_found, polygons, distance)
 
-    @unittest.expectedFailure
     def testConstructorDistanceBogusAttribute(self):
-        self.fail()
+        target_found = True
+        polygons = [1, 2, 3]
+        distance = 'Fail'
+        target = TargetModel(target_found, polygons, distance)
+        assert (target.distance is None)
 
     @unittest.expectedFailure
     def testConstructorPolygonsBogusAttribute(self):
-        self.fail()
+        target_found = True
+        polygons = 1
+        distance = -1.0
+        TargetModel(target_found, polygons, distance)
+
 
     def tearDown(self):
         pass
+
+if __name__ == '__main__':
+    unittest.main()
