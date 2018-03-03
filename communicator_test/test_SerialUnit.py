@@ -16,14 +16,14 @@ class TestSerialListener(unittest.TestCase):
                 test_result = True
         assert test_result
 
-    @unittest.expectedFailure
     def testAttachFalse(self):
         self.listener.attach(TestObserver())
         test_result = False
         for observer in self.listener.observers:
             if observer == self.observer:
                 test_result = True
-        assert test_result
+        if test_result:
+            self.fail()
 
     def testDetach(self):
         self.listener.attach(self.observer)
