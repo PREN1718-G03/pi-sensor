@@ -10,7 +10,7 @@ class TestDistanceCalculation(unittest.TestCase):
     def testTargetRecognition(self):
         with self.assertRaises(NotImplementedError):
             target = self.target_recogniser.detect_target()
-        self.assertIsInstance(target, TargetModel)
+            self.assertIsInstance(target, TargetModel)
 
     def tearDown(self):
         pass
