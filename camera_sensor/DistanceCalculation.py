@@ -1,5 +1,5 @@
 import abc
-import TargetModel
+from TargetModel import TargetModel
 
 
 class DistanceCalculation(object):
