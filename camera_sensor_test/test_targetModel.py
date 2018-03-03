@@ -24,12 +24,12 @@ class TestTargetModel(unittest.TestCase):
         if target.distance != distance:
             self.fail('distance not set')
 
-    @unittest.expectedFailure
     def testConstructorTarget_foundBogusAttribute(self):
         target_found = None
         polygons = [1, 2, 3]
         distance = -1.0
-        TargetModel(target_found, polygons, distance)
+        with self.assertRaises(TypeError):
+            TargetModel(target_found, polygons, distance)
 
     def testConstructorDistanceBogusAttribute(self):
         target_found = True
@@ -38,12 +38,12 @@ class TestTargetModel(unittest.TestCase):
         target = TargetModel(target_found, polygons, distance)
         assert (target.distance is None)
 
-    @unittest.expectedFailure
     def testConstructorPolygonsBogusAttribute(self):
         target_found = True
         polygons = 1
         distance = -1.0
-        TargetModel(target_found, polygons, distance)
+        with self.assertRaises(TypeError):
+            TargetModel(target_found, polygons, distance)
 
     def tearDown(self):
         pass
