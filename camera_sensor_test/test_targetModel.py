@@ -45,9 +45,9 @@ class TestTargetModel(unittest.TestCase):
         distance = -1.0
         TargetModel(target_found, polygons, distance)
 
-
     def tearDown(self):
         pass
+
 
 if __name__ == '__main__':
     unittest.main()
