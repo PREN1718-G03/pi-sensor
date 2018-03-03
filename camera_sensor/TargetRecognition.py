@@ -1,6 +1,7 @@
 import abc
 import TargetModel
 
+
 class TargetRecognition(object):
     """\
     Abstract class for all target recognition classes / modules
