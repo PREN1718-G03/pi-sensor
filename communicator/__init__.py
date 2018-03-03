@@ -1,1 +1,1 @@
-__all__ = ['SerialListener','SerialObserver','SerialSender']
+__all__ = ['SerialInterfaceListener','SerialInterfaceObserver','SerialInterfaceSender', ]
