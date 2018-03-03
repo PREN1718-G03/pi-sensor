@@ -1,5 +1,5 @@
 import abc
-import TargetModel
+from TargetModel import TargetModel
 
 
 class TargetRecognition(object):
@@ -13,5 +13,7 @@ class TargetRecognition(object):
 
     @abc.abstractmethod
     def detect_target(self):
-        raise NotImplementedError("Class %s doesn't implement aMethod()" % self.__class__.__name__)
-        return self.target
+        """\
+        Tries to detect the target platform and returns a target element
+        """
+        raise NotImplementedError("Class " + self.__class__.__name__ + " doesn't implement detect_target()")
