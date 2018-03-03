@@ -20,7 +20,7 @@ class TargetModel(object):
         if isinstance(polygons, list):
             self.polygons = polygons
         else:
-            raise TypeError('polygons ' + str(type(polygons)) +' not of type list')
+            raise TypeError('polygons ' + str(type(polygons)) + ' not of type list')
         if isinstance(distance,float):
             self.distance = distance
         else:
