@@ -23,8 +23,7 @@ class ContourTargetRecognition(TargetRecognition, threading.Thread):
 
     def detect_target(self):
         # Empty lists are considered false in Python
-        if not self.frame.count():
-            pass
+        if not self.frame:
 
             # Change the picture to gray scale
             gray = cv2.cvtColor(self.frame, cv2.COLOR_BGR2GRAY)
