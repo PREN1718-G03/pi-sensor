@@ -60,8 +60,9 @@ class ContourTargetRecognition(TargetRecognition, threading.Thread):
                     coordinate_array.append(coordinates)
 
                 print coordinate_array
-                target_found = self.recognise_target(coordinate_array)
-                self.target = TargetModel(target_found, coordinate_array)
+
+            target_found = self.recognise_target(coordinate_array)
+            self.target = TargetModel(target_found, contours)
         return self.target
 
     def recognise_target(self, coordinate_array):
