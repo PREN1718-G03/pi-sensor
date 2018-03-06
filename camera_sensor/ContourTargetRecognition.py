@@ -32,7 +32,8 @@ class ContourTargetRecognition(TargetRecognition, threading.Thread):
             # Calculate the binary threshold -> Everything lower than threshold turns black, everything over turns white
             ret_threshold, threshold = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY)
 
-            # Find the contours, RETR_TREE preserves the inner contours and doesn't limit itself to the outermost one like RETR_EXTERNAL
+            # Find the contours, RETR_TREE preserves the inner contours
+            # and doesn't limit itself to the outermost one like RETR_EXTERNAL
             image_contours, contours, hierarchy = cv2.findContours(threshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
             # I want to enumerate the found rectangles
@@ -50,7 +51,8 @@ class ContourTargetRecognition(TargetRecognition, threading.Thread):
                 if len(approximated_contour) == 4 and contour_area > 50.0:
                     rect_count += 1
 
-                    # Calculate the centroid from moments https://docs.opencv.org/trunk/dd/d49/tutorial_py_contour_features.html
+                    # Calculate the centroid from moments
+                    # https://docs.opencv.org/trunk/dd/d49/tutorial_py_contour_features.html
                     moments = cv2.moments(approximated_contour)
                     cx = int(moments['m10'] / moments['m00'])
                     cy = int(moments['m01'] / moments['m00'])
