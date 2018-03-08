@@ -3,7 +3,7 @@ from camera_sensor.TargetModel import TargetModel
 import unittest
 
 
-class TestDistanceCalculation(unittest.TestCase):
+class TestTargetRecognition(unittest.TestCase):
     def setUp(self):
         self.target_recogniser = ContourTargetRecognition()
         self.target_recogniser.start()
