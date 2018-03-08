@@ -46,6 +46,7 @@ class ContourTargetRecognition(TargetRecognition, threading.Thread):
             # I want to enumerate the found rectangles
             rect_count = 0
             coordinate_array = []
+            target_contours = []
 
             for contour in contours:
                 perimeter = cv2.arcLength(contour, True)
@@ -66,28 +67,34 @@ class ContourTargetRecognition(TargetRecognition, threading.Thread):
 
                     coordinates = (cx, cy)
                     coordinate_array.append(coordinates)
+                    target_contours.append(approximated_contour)
 
-            target_found = self._recognise_target(coordinate_array)
-            self.target = TargetModel(target_found, contours)
+            target_found, target_contours = self._recognise_target(coordinate_array, target_contours)
+            self.target = TargetModel(target_found, target_contours)
         return self.target
 
-    def _recognise_target(self, coordinate_array):
+    def _recognise_target(self, coordinate_array, rect_contours):
         # err_max: How near the two middle points should be in pixels
         err_max = 4
         match = 0
         found = False
         compared_coordinates = (0, 0)
-        for coordinates in coordinate_array:
+        contours = []
+
+        for index in range(len(coordinate_array)):
+            coordinates = coordinate_array[index]
             difference_x = abs(compared_coordinates[0] - coordinates[0])
             difference_y = abs(compared_coordinates[1] - coordinates[1])
             if difference_x < err_max and difference_y < err_max:
                 match += 1
+                contours.append(rect_contours[index])
             else:
                 match = 0
-            compared_coordinates = coordinates
+                contours = []
+                compared_coordinates = coordinates
             if match > 3:
                 found = True
-        return found
+        return found, contours
 
     def run(self):
         self.frame = self.cam.read()
