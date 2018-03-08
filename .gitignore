@@ -108,3 +108,4 @@ ENV/
 .idea/remote-mappings.xml
 .idea/deployment.xml
 .idea/pi-sensor.iml
+.idea/
