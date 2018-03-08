@@ -67,11 +67,11 @@ class ContourTargetRecognition(TargetRecognition, threading.Thread):
                     coordinates = (cx, cy)
                     coordinate_array.append(coordinates)
 
-            target_found = self.recognise_target(coordinate_array)
+            target_found = self._recognise_target(coordinate_array)
             self.target = TargetModel(target_found, contours)
         return self.target
 
-    def recognise_target(self, coordinate_array):
+    def _recognise_target(self, coordinate_array):
         # err_max: How near the two middle points should be in pixels
         err_max = 4
         match = 0
