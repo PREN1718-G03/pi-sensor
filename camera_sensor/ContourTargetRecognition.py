@@ -6,6 +6,7 @@ import cv2
 import copy
 import time
 import threading
+import numpy as np
 
 
 class ContourTargetRecognition(TargetRecognition, threading.Thread):
@@ -14,19 +15,20 @@ class ContourTargetRecognition(TargetRecognition, threading.Thread):
     def __init__(self):
         super(ContourTargetRecognition, self).__init__()
         threading.Thread.__init__(self)
-        self.keep_camera_running = True
-        self.frame = []
+        self.stop_camera = False
+        self.frame = None
 
     def _setup(self):
         self.cam = VideoStream().start()
         time.sleep(2.0)
 
     def detect_target(self):
-        # Empty lists are considered false in Python
-        if not self.frame:
+        if self.frame is not None:
+
+            working_frame = copy.copy(self.frame)
 
             # Change the picture to gray scale
-            gray = cv2.cvtColor(self.frame, cv2.COLOR_BGR2GRAY)
+            gray = cv2.cvtColor(working_frame, cv2.COLOR_BGR2GRAY)
 
             # Calculate the binary threshold -> Everything lower than threshold turns black, everything over turns white
             ret_threshold, threshold = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY)
@@ -82,9 +84,14 @@ class ContourTargetRecognition(TargetRecognition, threading.Thread):
         return found
 
     def run(self):
+        self.frame = self.cam.read()
+        if self.stop_camera:
+            return
+
+    def start(self):
         self._setup()
-        while self.keep_camera_running:
-            ret, self.frame = self.cam.read()
+        self.run()
 
     def stop(self):
-        self.keep_camera_running = False
+        self.stop_camera = True
+        self.cam.stop()
