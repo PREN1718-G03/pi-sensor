@@ -30,6 +30,12 @@ class ContourTargetRecognition(TargetRecognition, threading.Thread):
             # Change the picture to gray scale
             gray = cv2.cvtColor(working_frame, cv2.COLOR_BGR2GRAY)
 
+            width, height = gray.shape
+            normalized = np.zeros((width, height))
+
+            # I suspect it helps, but I'm not sure ^^'
+            normalized = cv2.normalize(gray, normalized, 50, 255, cv2.NORM_MINMAX)
+
             # Calculate the binary threshold -> Everything lower than threshold turns black, everything over turns white
             ret_threshold, threshold = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY)
 
