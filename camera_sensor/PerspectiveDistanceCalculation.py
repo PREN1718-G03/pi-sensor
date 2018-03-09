@@ -16,7 +16,29 @@ class PerspectiveDistanceCalculation(DistanceCalculation):
 
     def _calculate_vertical_distance(self):
         if self.target is not None:
-            pass
+            target_center_coordinates = self._calculate_horizontal_distance()
+            self._print_diagnostic_information(self.target, 'Center coordinates ' + str(target_center_coordinates))
+
+            # Sort contours from smallest to biggest
+            sorted_contours = []
+            for index in range(len(self.target.contours)):
+                if len(sorted_contours) == 0:
+                    sorted_contours.append(self.target.contours[index])
+                else:
+                    insert_index = 0
+                    contour_area = cv2.contourArea(self.target.contours[index])
+                    for sorted_index in range(len(sorted_contours)):
+                        sorted_contour_area = cv2.contourArea(self.target.contours[sorted_index])
+                        if contour_area < sorted_contour_area:
+                            insert_index = sorted_index
+                            break
+                        else:
+                            insert_index += 1
+                    sorted_contours.insert(insert_index)
+
+            # TODO debug - remove before shipping
+            print(sorted_contours)
+
         else:
             raise TypeError('target of type None')
 
@@ -57,7 +79,7 @@ class PerspectiveDistanceCalculation(DistanceCalculation):
                         target_center = compared_coordinates
         return target_center
 
-    def _print_diagnostic_information(self, target):
+    def _print_diagnostic_information(self, target, message_string=''):
         if isinstance(target, TargetModel):
             i = 0
             for contour in target.contours:
@@ -65,5 +87,6 @@ class PerspectiveDistanceCalculation(DistanceCalculation):
                 print('Contour ' + str(i) + ': ' + str(contour))
                 print('Area ' + str(cv2.contourArea(contour)))
                 print('Sides ' + str(cv2.arcLength(contour)))
+                print(str(message_string))
         else:
             pass
