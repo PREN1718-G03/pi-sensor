@@ -1,6 +1,6 @@
 from camera_sensor.TargetRecognition import TargetRecognition
 from camera_sensor.TargetModel import TargetModel
-from VideoStream import VideoStream
+from camera_sensor.camera_stream.VideoStream import VideoStream
 from SingletonMetaclass import Singleton
 import cv2
 import copy
