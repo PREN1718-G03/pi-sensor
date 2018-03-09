@@ -23,6 +23,7 @@ class ContourTargetRecognition(TargetRecognition, threading.Thread):
         time.sleep(2.0)
 
     def detect_target(self):
+        """Detect the target platform on the current camera stream image and return a TargetModel"""
         if self.frame is not None:
 
             working_frame = copy.copy(self.frame)
