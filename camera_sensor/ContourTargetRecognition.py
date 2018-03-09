@@ -15,8 +15,9 @@ class ContourTargetRecognition(TargetRecognition, threading.Thread):
     def __init__(self):
         super(ContourTargetRecognition, self).__init__()
         threading.Thread.__init__(self)
-        self.stop_camera = False
-        self.frame = None
+        self.__stop_camera = False
+        self.__frame = None
+
 
     def _setup(self):
         self.cam = VideoStream().start()
@@ -24,9 +25,9 @@ class ContourTargetRecognition(TargetRecognition, threading.Thread):
 
     def detect_target(self):
         """Detect the target platform on the current camera stream image and return a TargetModel"""
-        if self.frame is not None:
+        if self.__frame is not None:
 
-            working_frame = copy.copy(self.frame)
+            working_frame = copy.copy(self.__frame)
 
             # Change the picture to gray scale
             gray = cv2.cvtColor(working_frame, cv2.COLOR_BGR2GRAY)
@@ -98,8 +99,8 @@ class ContourTargetRecognition(TargetRecognition, threading.Thread):
         return found, contours
 
     def run(self):
-        self.frame = self.cam.read()
-        if self.stop_camera:
+        self.__frame = self.cam.read()
+        if self.__stop_camera:
             return
 
     def start(self):
@@ -107,5 +108,5 @@ class ContourTargetRecognition(TargetRecognition, threading.Thread):
         self.run()
 
     def stop(self):
-        self.stop_camera = True
+        self.__stop_camera = True
         self.cam.stop()
