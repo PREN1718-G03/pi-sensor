@@ -1,11 +1,20 @@
 from camera_sensor.DistanceCalculation import DistanceCalculation
 from camera_sensor.TargetModel import TargetModel
 import cv2
-
+import numpy
 
 class PerspectiveDistanceCalculation(DistanceCalculation):
     def __init__(self):
         self.target = None
+        self.DEF_CONTOUR_AREA = [
+            1.0,
+            2.0,
+            3.0,
+            4.0,
+            5.0,
+            6.0
+        ]
+        self.DEF_DISTANCE = 0.0
 
     def calculate_distance(self, target):
         if not isinstance(target, TargetModel):
@@ -15,6 +24,7 @@ class PerspectiveDistanceCalculation(DistanceCalculation):
             self._print_diagnostic_information(target)
 
     def _calculate_vertical_distance(self):
+        result = None
         if self.target is not None:
             target_center_coordinates = self._calculate_horizontal_distance()
             self._print_diagnostic_information(self.target, 'Center coordinates ' + str(target_center_coordinates))
@@ -39,8 +49,18 @@ class PerspectiveDistanceCalculation(DistanceCalculation):
             # TODO debug - remove before shipping
             print(sorted_contours)
 
+            reduction_factor = []
+            for index in range(len(sorted_contours)):
+                factor = cv2.contourArea(sorted_contours)/self.DEF_CONTOUR_AREA[index]
+                reduction_factor.append(factor)
+
+            factor = numpy.mean(reduction_factor)
+            # Inverse Square Law
+            # https://www.youtube.com/watch?v=d-o3eB9sfls
+            result = 2 * factor * self.DEF_DISTANCE
         else:
             raise TypeError('target of type None')
+        return result
 
     def _calculate_horizontal_distance(self):
         if self.target is not None:
