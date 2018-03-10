@@ -15,7 +15,6 @@ class ContourTargetRecognition(TargetRecognition, threading.Thread):
     def __init__(self):
         super(ContourTargetRecognition, self).__init__()
         threading.Thread.__init__(self)
-        self.__stop_camera = False
         self.__frame = None
 
 
@@ -25,6 +24,8 @@ class ContourTargetRecognition(TargetRecognition, threading.Thread):
 
     def detect_target(self):
         """Detect the target platform on the current camera stream image and return a TargetModel"""
+        self.__frame = self.cam.read()
+
         if self.__frame is not None:
 
             working_frame = copy.copy(self.__frame)
@@ -98,15 +99,8 @@ class ContourTargetRecognition(TargetRecognition, threading.Thread):
                 found = True
         return found, contours
 
-    def run(self):
-        self.__frame = self.cam.read()
-        if self.__stop_camera:
-            return
-
     def start(self):
         self._setup()
-        self.run()
 
     def stop(self):
-        self.__stop_camera = True
         self.cam.stop()
