@@ -109,7 +109,6 @@ class PerspectiveDistanceCalculation(DistanceCalculation):
                 i += 1
                 print('Contour ' + str(i) + ': ' + str(contour))
                 print('Area ' + str(cv2.contourArea(contour)))
-                print('Sides ' + str(cv2.arcLength(contour)))
                 print(str(message_string))
         else:
             pass
