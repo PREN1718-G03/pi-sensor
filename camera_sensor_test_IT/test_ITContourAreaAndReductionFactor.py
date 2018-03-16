@@ -13,15 +13,17 @@ class ContourAreaAndReductionFactorTest(object):
     def start_test(self):
         self.target_recogniser.start()
         os.chdir('/home/pi/Desktop')
+        bildnummer = 0
         while self.run:
             user_input = raw_input("Press Enter...")
+            bildnummer += 1
             if str(user_input) == 'end':
                 self.run = False
             else:
                 target = self.target_recogniser.detect_target()
                 self.distance_calculator.calculate_distance(target)
                 frame = self.target_recogniser.cam.read()
-                image_name = './imagePython' + str(datetime.datetime.time(datetime.datetime.now())) + '.jpg'
+                image_name = './imagePython' + str(bildnummer) + '.jpg'
                 cv2.imwrite(image_name, frame)
         self.end_test_and_cleanup()
 
