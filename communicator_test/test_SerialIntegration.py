@@ -25,7 +25,8 @@ class TestIntegration(unittest.TestCase):
         test_result = False
         self.sender.send_message(test_message)
         time.sleep(2)
-        if test_message == self.observer1.get_stored_message() and test_message == self.observer2.get_stored_message() and test_message == self.observer3.get_stored_message():
+        if test_message == self.observer1.get_stored_message() and test_message == self.observer2.get_stored_message()\
+                and test_message == self.observer3.get_stored_message():
             test_result = True
         assert test_result
 
