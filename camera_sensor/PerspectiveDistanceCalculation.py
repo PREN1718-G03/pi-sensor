@@ -86,7 +86,7 @@ class PerspectiveDistanceCalculation(DistanceCalculation):
                 coordinate_array.append(coordinates)
 
                 # err_max: How near the two middle points should be in pixels
-                err_max = 4
+                err_max = 20
                 match = 0
 
                 compared_coordinates = (0, 0)
@@ -98,7 +98,7 @@ class PerspectiveDistanceCalculation(DistanceCalculation):
                     else:
                         match = 0
                         compared_coordinates = coordinates
-                    if match > 3:
+                    if match >= 3:
                         target_center = compared_coordinates
         return target_center
 
