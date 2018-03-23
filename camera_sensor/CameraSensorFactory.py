@@ -1,11 +1,9 @@
-from camera_sensor.SensorController import SensorController
+from camera_sensor.SensorControllerImplementation import SensorControllerImplementation
 
 
 class CameraSensorFactory(object):
     """Returns a SensorController object"""
 
-    def __init__(self):
-        self.__sensor_controller = None
-
+    @staticmethod
     def get_sensor_controller(self):
-        return self.__sensor_controller
+        return SensorControllerImplementation()
