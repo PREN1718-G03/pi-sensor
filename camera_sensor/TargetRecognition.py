@@ -6,6 +6,7 @@ class TargetRecognition(object):
     """\
     Abstract class for all target recognition classes / modules
     """
+    __metaclass__ = abc.ABCMeta
 
     def __init__(self):
         self.target = TargetModel()

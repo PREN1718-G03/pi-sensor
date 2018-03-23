@@ -3,6 +3,8 @@ from TargetModel import TargetModel
 
 
 class DistanceCalculation(object):
+    __metaclass__ = abc.ABCMeta
+
     @abc.abstractmethod
     def calculate_distance(self, target):
         if not isinstance(target, TargetModel):
