@@ -5,5 +5,5 @@ class CameraSensorFactory(object):
     """Returns a SensorController object"""
 
     @staticmethod
-    def get_sensor_controller(self):
+    def get_sensor_controller():
         return SensorControllerImplementation()
