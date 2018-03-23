@@ -12,6 +12,6 @@ class test_SerialCommunicatorFactory(unittest.TestCase):
         sender = CommunicatorFactory.get_communication_interface_sender()
         self.assertIsInstance(sender, CommunicationInterfaceSender)
 
-    def get_communication_interface_listener(self):
+    def test_get_communication_interface_listener(self):
         listener = CommunicatorFactory.get_communication_interface_listener()
         self.assertIsInstance(listener, CommunicationInterfaceListener)
