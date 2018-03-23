@@ -3,7 +3,7 @@ from communicator.CommunicationInterfaceSender import CommunicationInterfaceSend
 from SingletonMetaclass import Singleton
 
 
-class SerialInterfaceSender(CommunicationInterfaceSender):
+class SerialCommunicationInterfaceSender(CommunicationInterfaceSender):
     """\
     Serial sending class, used to send messages to the MC of the ETs
     """

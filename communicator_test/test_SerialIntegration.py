@@ -1,6 +1,6 @@
 from communicator.CommunicationInterfaceObserver import CommunicationInterfaceObserver
 from communicator.SerialCommunicationInterfaceListener import SerialCommunicationInterfaceListener
-from communicator.SerialInterfaceSender import SerialInterfaceSender
+from communicator.SerialCommunicationInterfaceSender import SerialCommunicationInterfaceSender
 import unittest
 import time
 
@@ -11,7 +11,7 @@ class TestIntegration(unittest.TestCase):
         self.observer2 = TestObserver()
         self.observer3 = TestObserver()
 
-        self.sender = SerialInterfaceSender()
+        self.sender = SerialCommunicationInterfaceSender()
 
         self.listener = SerialCommunicationInterfaceListener()
         self.listener.attach(self.observer1)

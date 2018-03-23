@@ -1,1 +1,3 @@
-__all__ = ['SerialCommunicationInterfaceListener.py', 'CommunicationInterfaceObserver.py', 'SerialInterfaceSender', ]
+__all__ = ['SerialCommunicationInterfaceListener', 'CommunicationInterfaceObserver',
+           'SerialCommunicationInterfaceSender', 'CommunicatorFactory', 'CommunicationInterfaceSender',
+           'CommunicationInterfaceListener']
