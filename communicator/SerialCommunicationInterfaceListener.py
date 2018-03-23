@@ -1,10 +1,11 @@
-from SerialInterfaceObserver import SerialInterfaceObserver
+from CommunicationInterfaceListener import CommunicationInterfaceListener
+from CommunicationInterfaceObserver import CommunicationInterfaceObserver
 from SingletonMetaclass import Singleton
 import serial
 import threading
 
 
-class SerialInterfaceListener(threading.Thread):
+class SerialCommunicationInterfaceListener(threading.Thread, CommunicationInterfaceListener):
     """\
     Class which listens to the serial UART port of the raspberry pi and informs observers
     """
@@ -21,13 +22,13 @@ class SerialInterfaceListener(threading.Thread):
         self.listen_to_interface = True
 
     def attach(self, observer):
-        if isinstance(observer, SerialInterfaceObserver):
+        if isinstance(observer, CommunicationInterfaceObserver):
             self.observers.append(observer)
         else:
             raise TypeError('Attribute observer is not a subclass of SerialObserver')
 
     def detach(self, observer):
-        if isinstance(observer, SerialInterfaceObserver):
+        if isinstance(observer, CommunicationInterfaceObserver):
             self.observers.remove(observer)
         else:
             raise TypeError('Attribute observer is not a subclass of SerialObserver')

@@ -1,9 +1,9 @@
 import serial
-import logging
+from communicator.CommunicationInterfaceSender import CommunicationInterfaceSender
 from SingletonMetaclass import Singleton
 
 
-class SerialInterfaceSender(object):
+class SerialInterfaceSender(CommunicationInterfaceSender):
     """\
     Serial sending class, used to send messages to the MC of the ETs
     """

@@ -1,11 +1,11 @@
-from communicator.SerialInterfaceObserver import SerialInterfaceObserver
-from communicator.SerialInterfaceListener import SerialInterfaceListener
+from communicator.CommunicationInterfaceObserver import CommunicationInterfaceObserver
+from communicator.SerialCommunicationInterfaceListener import SerialCommunicationInterfaceListener
 import unittest
 
 
 class TestSerialListener(unittest.TestCase):
     def setUp(self):
-        self.listener = SerialInterfaceListener()
+        self.listener = SerialCommunicationInterfaceListener()
         self.observer = TestObserver()
 
     def testAttach(self):
@@ -38,7 +38,7 @@ class TestSerialListener(unittest.TestCase):
         pass
 
 
-class TestObserver(SerialInterfaceObserver):
+class TestObserver(CommunicationInterfaceObserver):
     def __init__(self):
         super(TestObserver, self).__init__()
         pass
