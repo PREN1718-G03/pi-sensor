@@ -9,6 +9,7 @@ class PerspectiveDistanceCalculation(DistanceCalculation):
         self.__target = None
 
     def calculate_distance(self, target):
+        distance_to_target = None
         if not isinstance(target, TargetModel):
             raise TypeError('target not of type TargetModel')
         else:
@@ -16,14 +17,18 @@ class PerspectiveDistanceCalculation(DistanceCalculation):
             self._print_diagnostic_information(target)
             # TODO remove before shipping
             print(self._find_target_center())
-            
+
             height = self._get_vertical_distance()
+            # Scale to nearest 5 cm
+            height = int(round(height/5.0)*5.0)
+            distance_to_target = self._calculate_horizontal_distance(height)
+        return distance_to_target
 
 
     def _get_vertical_distance(self):
         return 53.3
 
-    def _calculate_horizontal_distance(self):
+    def _calculate_horizontal_distance(self, height):
         if self.__target is not None:
             pass
         else:
