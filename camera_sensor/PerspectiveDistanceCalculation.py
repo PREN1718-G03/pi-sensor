@@ -7,15 +7,6 @@ import numpy
 class PerspectiveDistanceCalculation(DistanceCalculation):
     def __init__(self):
         self.__target = None
-        self.__DEF_CONTOUR_AREA = [
-            1.0,
-            2.0,
-            3.0,
-            4.0,
-            5.0,
-            6.0
-        ]
-        self.__DEF_DISTANCE = 0.0
 
     def calculate_distance(self, target):
         if not isinstance(target, TargetModel):
@@ -25,47 +16,14 @@ class PerspectiveDistanceCalculation(DistanceCalculation):
             self._print_diagnostic_information(target)
             # TODO remove before shipping
             print(self._find_target_center())
+            
+            height = self._get_vertical_distance()
 
-    def _calculate_vertical_distance(self):
-        result = None
-        if self.__target is not None:
-            target_center_coordinates = self._calculate_horizontal_distance()
-            self._print_diagnostic_information(self.__target, 'Center coordinates ' + str(target_center_coordinates))
 
-            # Sort contours from smallest to biggest
-            sorted_contours = []
-            for index in range(len(self.__target.contours)):
-                if len(sorted_contours) == 0:
-                    sorted_contours.append(self.__target.contours[index])
-                else:
-                    insert_index = 0
-                    contour_area = cv2.contourArea(self.__target.contours[index])
-                    for sorted_index in range(len(sorted_contours)):
-                        sorted_contour_area = cv2.contourArea(self.__target.contours[sorted_index])
-                        if contour_area < sorted_contour_area:
-                            insert_index = sorted_index
-                            break
-                        else:
-                            insert_index += 1
-                    sorted_contours.insert(insert_index)
+    def _get_vertical_distance(self):
+        return 53.3
 
-            # TODO debug - remove before shipping
-            print(sorted_contours)
-
-            reduction_factor = []
-            for index in range(len(sorted_contours)):
-                factor = cv2.contourArea(sorted_contours)/self.__DEF_CONTOUR_AREA[index]
-                reduction_factor.append(factor)
-
-            factor = numpy.mean(reduction_factor)
-            # Inverse Square Law
-            # https://www.youtube.com/watch?v=d-o3eB9sfls
-            result = 2 * factor * self.__DEF_DISTANCE
-        else:
-            raise TypeError('target of type None')
-        return result
-
-    def _calculate_horizontal_distance(self, reduction_factor = 1.0):
+    def _calculate_horizontal_distance(self):
         if self.__target is not None:
             pass
         else:
