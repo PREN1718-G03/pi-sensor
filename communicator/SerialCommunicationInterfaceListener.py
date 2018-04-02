@@ -3,7 +3,11 @@ from CommunicationInterfaceObserver import CommunicationInterfaceObserver
 from SingletonMetaclass import Singleton
 import serial
 import threading
+import string
 
+rot13 = string.maketrans(
+    "ABCDEFGHIJKLMabcdefghijklmNOPQRSTUVWXYZnopqrstuvwxyz",
+    "NOPQRSTUVWXYZnopqrstuvwxyzABCDEFGHIJKLMabcdefghijklm")
 
 class SerialCommunicationInterfaceListener(threading.Thread, CommunicationInterfaceListener):
     """\
@@ -13,11 +17,10 @@ class SerialCommunicationInterfaceListener(threading.Thread, CommunicationInterf
 
     def __init__(self):
         threading.Thread.__init__(self)
-        self.ser = serial.Serial('/dev/serial0')
-        self.ser.parity = serial.PARITY_NONE
-        self.ser.stopbits = serial.STOPBITS_ONE
-        self.ser.bytesize = serial.EIGHTBITS
-        self.ser.timeout = 1
+        self.ser = serial.Serial(
+            port='/dev/serial0',
+            baudrate=9600
+        )
         self.observers = []
         self.listen_to_interface = True
 
@@ -38,11 +41,9 @@ class SerialCommunicationInterfaceListener(threading.Thread, CommunicationInterf
             observer.update(received_message)
 
     def _read_serial_interface(self):
-        serial_interface_string = str(self.ser.readline())
-        # Split the line on the \n and get the first element (the message)
-        serial_interface_string = serial_interface_string.split('\n')[0]
+        input_line = self.ser.read_until()
+        serial_interface_string = string.translate(input_line, rot13)
         if serial_interface_string != '':
-            print serial_interface_string
             self._notify(serial_interface_string)
 
     def run(self):

@@ -11,6 +11,7 @@ class SerialCommunicationInterfaceSender(CommunicationInterfaceSender):
 
     def __init__(self):
         self.ser = serial.Serial('/dev/serial0')
+        self.ser.baudrate = 9600
         self.ser.parity = serial.PARITY_NONE
         self.ser.stopbits = serial.STOPBITS_ONE
         self.ser.bytesize = serial.EIGHTBITS
