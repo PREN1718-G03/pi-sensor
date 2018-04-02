@@ -15,8 +15,6 @@ class PerspectiveDistanceCalculation(DistanceCalculation):
             raise TypeError('target not of type TargetModel')
         else:
             self.__target = target
-            self.__print_diagnostic_information(target)
-
             height = self.__get_vertical_distance()
             distance_to_target = self.__calculate_horizontal_distance(height)
         return distance_to_target
