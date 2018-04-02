@@ -81,7 +81,7 @@ class ContourTargetRecognition(TargetRecognition, threading.Thread):
 
     def __recognise_target(self, coordinate_array, rect_contours):
         # err_max: How near the two middle points should be in pixels
-        err_max = 20
+        err_max = 35
         match = 0
         found = False
         compared_coordinates = (0, 0)
@@ -98,7 +98,7 @@ class ContourTargetRecognition(TargetRecognition, threading.Thread):
                 match = 0
                 contours = []
                 compared_coordinates = coordinates
-            if match >= 3:
+            if match > 1:
                 found = True
         return found, contours
 
