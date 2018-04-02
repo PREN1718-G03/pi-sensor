@@ -5,28 +5,27 @@ import numpy
 
 
 class PerspectiveDistanceCalculation(DistanceCalculation):
+
     def __init__(self):
         self.__target = None
+        self.__CENTER_COORDINATES = (545, 240)
 
     def calculate_distance(self, target):
-        distance_to_target = None
         if not isinstance(target, TargetModel):
             raise TypeError('target not of type TargetModel')
         else:
             self.__target = target
-            self._print_diagnostic_information(target)
-            # TODO remove before shipping
-            print(self._find_target_center())
+            self.__print_diagnostic_information(target)
 
-            height = self._get_vertical_distance()
+            height = self.__get_vertical_distance()
             # Scale to nearest 5 cm
             height = int(round(height/5.0)*5.0)
             distance_to_target = self._calculate_horizontal_distance(height)
         return distance_to_target
 
 
-    def _get_vertical_distance(self):
-        return 53.3
+    def __get_vertical_distance(self):
+        return 52.5
 
     def _calculate_horizontal_distance(self, height):
         if self.__target is not None:
@@ -34,8 +33,8 @@ class PerspectiveDistanceCalculation(DistanceCalculation):
         else:
             raise TypeError('target of type None')
 
-    def _find_target_center(self):
-        target_center = None
+    def __find_target_center(self):
+        target_center = (0,0)
         if isinstance(self.__target, TargetModel):
             # calculate coordinates of specific contours
             coordinate_array = []
@@ -65,7 +64,7 @@ class PerspectiveDistanceCalculation(DistanceCalculation):
                         target_center = compared_coordinates
         return target_center
 
-    def _print_diagnostic_information(self, target, message_string=''):
+    def __print_diagnostic_information(self, target, message_string=''):
         if isinstance(target, TargetModel):
             i = 0
             for contour in target.contours:
@@ -73,5 +72,9 @@ class PerspectiveDistanceCalculation(DistanceCalculation):
                 print('Contour ' + str(i) + ': ' + str(contour))
                 print('Area ' + str(cv2.contourArea(contour)))
                 print(str(message_string))
+            if target.target_found:
+                target_center = self.__find_target_center()
+                print numpy.sqrt(((target_center[0]) - self.__CENTER_COORDINATES[0]) ** 2
+                                 + ((target_center[1]) - self.__CENTER_COORDINATES[1]) ** 2)
         else:
             pass
