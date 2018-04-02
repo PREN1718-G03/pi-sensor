@@ -37,7 +37,7 @@ class PerspectiveDistanceCalculation(DistanceCalculation):
         target_center = (0,0)
         if isinstance(self.__target, TargetModel):
             # calculate coordinates of specific contours
-            coordinate_array = []
+            target_centers = []
 
             for contour in self.__target.contours:
                 moments = cv2.moments(contour)
@@ -45,23 +45,20 @@ class PerspectiveDistanceCalculation(DistanceCalculation):
                 cy = int(moments['m01'] / moments['m00'])
 
                 coordinates = (cx, cy)
-                coordinate_array.append(coordinates)
+                target_centers.append(coordinates)
 
-                # err_max: How near the two middle points should be in pixels
-                err_max = 20
-                match = 0
-
-                compared_coordinates = (0, 0)
-                for coordinates in coordinate_array:
-                    difference_x = abs(compared_coordinates[0] - coordinates[0])
-                    difference_y = abs(compared_coordinates[1] - coordinates[1])
-                    if difference_x < err_max and difference_y < err_max:
-                        match += 1
-                    else:
-                        match = 0
-                        compared_coordinates = coordinates
-                    if match >= 3:
-                        target_center = compared_coordinates
+            count = 0
+            sum_x = 0
+            sum_y = 0
+            for (x, y) in target_centers:
+                count += 1
+                sum_x += x
+                sum_y += y
+            if count == 0:
+                count = 1
+            average_x = sum_x / count
+            average_y = sum_y / count
+            target_center = (average_x, average_y)
         return target_center
 
     def __print_diagnostic_information(self, target, message_string=''):
