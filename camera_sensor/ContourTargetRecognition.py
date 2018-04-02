@@ -40,10 +40,10 @@ class ContourTargetRecognition(TargetRecognition, threading.Thread):
             normalized = np.zeros((width, height))
 
             # I suspect it helps, but I'm not sure ^^'
-            normalized = cv2.normalize(gray, normalized, 50, 255, cv2.NORM_MINMAX)
+            normalized = cv2.normalize(gray, normalized, 40, 255, cv2.NORM_MINMAX)
 
             # Calculate the binary threshold -> Everything lower than threshold turns black, everything over turns white
-            ret_threshold, threshold = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY)
+            ret_threshold, threshold = cv2.threshold(gray, 70, 255, cv2.THRESH_BINARY)
 
             # Find the contours, RETR_TREE preserves the inner contours
             # and doesn't limit itself to the outermost one like RETR_EXTERNAL
