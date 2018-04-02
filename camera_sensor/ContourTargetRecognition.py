@@ -15,17 +15,20 @@ class ContourTargetRecognition(TargetRecognition, threading.Thread):
     def __init__(self):
         super(ContourTargetRecognition, self).__init__()
         threading.Thread.__init__(self)
+        self.terminate = False
         self.__frame = None
+        self.__setup()
 
-
-    def _setup(self):
+    def __setup(self):
         self.cam = VideoStream().start()
         time.sleep(2.0)
+        self.__frame = self.cam.read()
+
+    def get_camera_frame(self):
+        return self.__frame
 
     def detect_target(self):
         """Detect the target platform on the current camera stream image and return a TargetModel"""
-        self.__frame = self.cam.read()
-
         if self.__frame is not None:
 
             working_frame = copy.copy(self.__frame)
@@ -72,11 +75,11 @@ class ContourTargetRecognition(TargetRecognition, threading.Thread):
                     coordinate_array.append(coordinates)
                     target_contours.append(approximated_contour)
 
-            target_found, target_contours = self._recognise_target(coordinate_array, target_contours)
+            target_found, target_contours = self.__recognise_target(coordinate_array, target_contours)
             self.target = TargetModel(target_found, target_contours)
         return self.target
 
-    def _recognise_target(self, coordinate_array, rect_contours):
+    def __recognise_target(self, coordinate_array, rect_contours):
         # err_max: How near the two middle points should be in pixels
         err_max = 20
         match = 0
@@ -99,8 +102,11 @@ class ContourTargetRecognition(TargetRecognition, threading.Thread):
                 found = True
         return found, contours
 
-    def start(self):
-        self._setup()
-
     def stop(self):
         self.cam.stop()
+        self.terminate = True
+
+    def run(self):
+        while not self.terminate:
+            time.sleep(0.5)
+            self.__frame = self.cam.read()
