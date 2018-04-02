@@ -69,6 +69,7 @@ class PerspectiveDistanceCalculation(DistanceCalculation):
             target_center = (average_x, average_y)
         return target_center
 
+    # TODO Remove?
     def __print_diagnostic_information(self, target, message_string=''):
         if isinstance(target, TargetModel):
             i = 0
