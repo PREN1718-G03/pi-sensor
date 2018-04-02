@@ -18,8 +18,6 @@ class PerspectiveDistanceCalculation(DistanceCalculation):
             self.__print_diagnostic_information(target)
 
             height = self.__get_vertical_distance()
-            # Scale to nearest 5 cm
-            height = int(round(height/5.0)*5.0)
             distance_to_target = self._calculate_horizontal_distance(height)
         return distance_to_target
 
