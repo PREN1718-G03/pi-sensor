@@ -10,12 +10,14 @@ class SerialCommunicationInterfaceSender(CommunicationInterfaceSender):
     __metaclass__ = Singleton
 
     def __init__(self):
-        self.ser = serial.Serial('/dev/serial0')
-        self.ser.baudrate = 9600
-        self.ser.parity = serial.PARITY_NONE
-        self.ser.stopbits = serial.STOPBITS_ONE
-        self.ser.bytesize = serial.EIGHTBITS
-        self.ser.timeout = 1
+        self.ser = serial.Serial(
+            port='/dev/serial0',
+            baudrate=9600,
+            stopbits=serial.STOPBITS_ONE,
+            bytesize=serial.EIGHTBITS,
+            timeout=1,
+            dsrdtr=True
+        )
 
     def _write_string(self, message_string):
         if isinstance(message_string, str):
