@@ -7,6 +7,15 @@ class TestDistanceCalculation(unittest.TestCase):
     def setUp(self):
         self.distance_calculator = PerspectiveDistanceCalculation()
 
+    def testSetHeight(self):
+        height = 55.0
+        assert self.distance_calculator.set_height(height)
+
+    def testSetHeightBogusAttribute(self):
+        height = 'a'
+        with self.assertRaises(TypeError):
+            self.distance_calculator.set_height(height)
+
     def testCalculateDistance(self):
         target = TargetModel()
         distance = self.distance_calculator.calculate_distance(target)
