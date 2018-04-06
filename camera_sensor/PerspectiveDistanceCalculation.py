@@ -9,19 +9,22 @@ class PerspectiveDistanceCalculation(DistanceCalculation):
     def __init__(self):
         self.__target = None
         self.__CENTER_COORDINATES = (545, 240)
+        self.__height = 52.5
 
     def calculate_distance(self, target):
         if not isinstance(target, TargetModel):
             raise TypeError('target not of type TargetModel')
         else:
             self.__target = target
-            height = self.__get_vertical_distance()
-            distance_to_target = self.__calculate_horizontal_distance(height)
+            distance_to_target = self.__calculate_horizontal_distance(self.__height)
         return distance_to_target
 
-
-    def __get_vertical_distance(self):
-        return 52.5
+    def set_height(self, height):
+        if isinstance(height, float):
+            self.__height = height
+        else:
+            raise TypeError('height not of type float')
+        return True
 
     def __calculate_horizontal_distance(self, height):
         if 50.0 <= height <= 90.0:
