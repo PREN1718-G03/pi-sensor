@@ -18,5 +18,8 @@ class SensorControllerImplementation(SensorController):
                 distance = self.__distance_calculation.calculate_distance(target)
             return target.target_found, distance
 
+    def set_height(self):
+        self.__distance_calculation.set_height()
+
     def close(self):
         self.__target_recognition.stop()
