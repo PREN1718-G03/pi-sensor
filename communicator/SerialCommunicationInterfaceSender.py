@@ -19,7 +19,7 @@ class SerialCommunicationInterfaceSender(CommunicationInterfaceSender):
             dsrdtr=True
         )
 
-    def _write_string(self, message_string):
+    def __write_string(self, message_string):
         if isinstance(message_string, str):
             self.ser.write(message_string)
         else:
@@ -27,7 +27,7 @@ class SerialCommunicationInterfaceSender(CommunicationInterfaceSender):
 
     def send_message(self, message):
         try:
-            self._write_string(str(message))
+            self.__write_string(str(message))
         except TypeError as error:
             self.logger.error(error)
             raise

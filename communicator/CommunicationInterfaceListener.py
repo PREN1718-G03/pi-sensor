@@ -12,7 +12,7 @@ class CommunicationInterfaceListener(object):
         raise NotImplementedError
 
     @abstractmethod
-    def _notify(self, received_message):
+    def __notify(self, received_message):
         raise NotImplementedError
 
     @abstractmethod

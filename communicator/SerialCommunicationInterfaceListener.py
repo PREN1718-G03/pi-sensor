@@ -36,11 +36,11 @@ class SerialCommunicationInterfaceListener(threading.Thread, CommunicationInterf
         else:
             raise TypeError('Attribute observer is not a subclass of SerialObserver')
 
-    def _notify(self, received_message):
+    def __notify(self, received_message):
         for observer in self.observers:
             observer.update(received_message)
 
-    def _read_serial_interface(self):
+    def __read_serial_interface(self):
         if self.ser.inWaiting() is not 0:
             serial_interface_string = ''
             serial_interface_buffer = []
@@ -59,12 +59,12 @@ class SerialCommunicationInterfaceListener(threading.Thread, CommunicationInterf
                 serial_interface_string = serial_interface_string.strip('\r\n')
 
             if serial_interface_string != '':
-                self._notify(serial_interface_string)
+                self.__notify(serial_interface_string)
 
     def run(self):
         while self.listen_to_interface:
             self.ser.timeout = 1
-            self._read_serial_interface()
+            self.__read_serial_interface()
 
     def stop(self):
         self.listen_to_interface = False
