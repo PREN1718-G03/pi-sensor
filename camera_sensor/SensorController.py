@@ -7,4 +7,7 @@ class SensorController(object):
     @abc.abstractmethod
     def get_target_and_distance(self):
     	"""Returns if target is found and the distance to the target in cm"""
-        raise NotImplementedError('Must define get_target_and_distance to use this class')
+
+    @abc.abstractmethod
+    def close(self):
+        """Cleans up all target recognition and distance calculation objects"""
