@@ -71,19 +71,3 @@ class PerspectiveDistanceCalculation(DistanceCalculation):
             average_y = sum_y / count
             target_center = (average_x, average_y)
         return target_center
-
-    # TODO Remove?
-    def __print_diagnostic_information(self, target, message_string=''):
-        if isinstance(target, TargetModel):
-            i = 0
-            for contour in target.contours:
-                i += 1
-                print('Contour ' + str(i) + ': ' + str(contour))
-                print('Area ' + str(cv2.contourArea(contour)))
-                print(str(message_string))
-            if target.target_found:
-                target_center = self.__find_target_center()
-                print numpy.sqrt(((target_center[0]) - self.__CENTER_COORDINATES[0]) ** 2
-                                 + ((target_center[1]) - self.__CENTER_COORDINATES[1]) ** 2)
-        else:
-            pass
