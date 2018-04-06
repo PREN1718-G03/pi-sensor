@@ -1,5 +1,5 @@
 from unittest import TestCase
-from camera_sensor.HeightSensor import HeightSensor
+from controller.HeightSensor import HeightSensor
 
 
 class TestHeightSensor(TestCase):
