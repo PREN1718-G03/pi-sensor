@@ -11,10 +11,12 @@ class HeightSensor(object):
         self.__GPIO_TRIGGER = 23
         self.__GPIO_ECHO = 24
 
-        GPIO.cleanup()
         # define direction of GPIO pins(IN / OUT)
         GPIO.setup(self.__GPIO_TRIGGER, GPIO.OUT)
         GPIO.setup(self.__GPIO_ECHO, GPIO.IN)
+
+        # TODO Solve RuntimeWarning: This Channel already in use
+        GPIO.setwarnings(False)
 
     def get_height(self):
         height = 0.0
@@ -35,4 +37,9 @@ class HeightSensor(object):
 
         time_elapsed = time_stop - time_start
         height = (time_elapsed * 34300) / 2
+
+        time.sleep(0.05)
         return height
+
+    def close(self):
+        GPIO.cleanup()
