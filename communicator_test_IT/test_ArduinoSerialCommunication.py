@@ -1,6 +1,6 @@
-from communicator.SerialCommunicationInterfaceListener import SerialCommunicationInterfaceListener
+from communicator.ArduinoSerialCommunicationInterfaceListener import ArduinoSerialCommunicationInterfaceListener
 from communicator.CommunicationInterfaceObserver import CommunicationInterfaceObserver
-from communicator.SerialCommunicationInterfaceSender import SerialCommunicationInterfaceSender
+from communicator.ArduinoSerialCommunicationInterfaceSender import ArduinoSerialCommunicationInterfaceSender
 import time
 
 
@@ -18,8 +18,8 @@ class ArduinoSerialListener(CommunicationInterfaceObserver):
 
 if __name__ == '__main__':
     time.sleep(2)
-    serial_listener = SerialCommunicationInterfaceListener()
-    serial_sender = SerialCommunicationInterfaceSender()
+    serial_listener = ArduinoSerialCommunicationInterfaceListener()
+    serial_sender = ArduinoSerialCommunicationInterfaceSender()
     arduino_listener = ArduinoSerialListener()
     serial_listener.attach(arduino_listener)
     serial_listener.start()

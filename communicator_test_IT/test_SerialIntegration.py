@@ -1,6 +1,6 @@
 from communicator.CommunicationInterfaceObserver import CommunicationInterfaceObserver
-from communicator.SerialCommunicationInterfaceListener import SerialCommunicationInterfaceListener
-from communicator.SerialCommunicationInterfaceSender import SerialCommunicationInterfaceSender
+from communicator.ArduinoSerialCommunicationInterfaceListener import ArduinoSerialCommunicationInterfaceListener
+from communicator.ArduinoSerialCommunicationInterfaceSender import ArduinoSerialCommunicationInterfaceSender
 import unittest
 import time
 
@@ -11,9 +11,9 @@ class TestIntegration(unittest.TestCase):
         self.observer2 = TestObserver()
         self.observer3 = TestObserver()
 
-        self.sender = SerialCommunicationInterfaceSender()
+        self.sender = ArduinoSerialCommunicationInterfaceSender()
 
-        self.listener = SerialCommunicationInterfaceListener()
+        self.listener = ArduinoSerialCommunicationInterfaceListener()
         self.listener.attach(self.observer1)
         self.listener.attach(self.observer2)
         self.listener.attach(self.observer3)

@@ -5,7 +5,7 @@ import serial
 import threading
 
 
-class SerialCommunicationInterfaceListener(threading.Thread, CommunicationInterfaceListener):
+class ArduinoSerialCommunicationInterfaceListener(threading.Thread, CommunicationInterfaceListener):
     """\
     Class which listens to the serial UART port of the raspberry pi and informs observers
     """
@@ -18,8 +18,7 @@ class SerialCommunicationInterfaceListener(threading.Thread, CommunicationInterf
             baudrate=9600,
             stopbits=serial.STOPBITS_ONE,
             bytesize=serial.EIGHTBITS,
-            timeout=1,
-            dsrdtr=True
+            timeout=1
         )
         self.observers = []
         self.listen_to_interface = True

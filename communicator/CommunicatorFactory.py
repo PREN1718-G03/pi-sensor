@@ -1,5 +1,5 @@
-from communicator.SerialCommunicationInterfaceSender import SerialCommunicationInterfaceSender
-from communicator.SerialCommunicationInterfaceListener import SerialCommunicationInterfaceListener
+from communicator.ArduinoSerialCommunicationInterfaceSender import ArduinoSerialCommunicationInterfaceSender
+from communicator.ArduinoSerialCommunicationInterfaceListener import ArduinoSerialCommunicationInterfaceListener
 
 
 class CommunicatorFactory(object):
@@ -7,8 +7,8 @@ class CommunicatorFactory(object):
 
     @staticmethod
     def get_communication_interface_sender():
-        return SerialCommunicationInterfaceSender()
+        return ArduinoSerialCommunicationInterfaceSender()
 
     @staticmethod
     def get_communication_interface_listener():
-        return SerialCommunicationInterfaceListener()
+        return ArduinoSerialCommunicationInterfaceListener()

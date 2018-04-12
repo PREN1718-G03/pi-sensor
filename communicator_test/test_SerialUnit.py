@@ -1,11 +1,11 @@
 from communicator.CommunicationInterfaceObserver import CommunicationInterfaceObserver
-from communicator.SerialCommunicationInterfaceListener import SerialCommunicationInterfaceListener
+from communicator.ArduinoSerialCommunicationInterfaceListener import ArduinoSerialCommunicationInterfaceListener
 import unittest
 
 
 class TestSerialListener(unittest.TestCase):
     def setUp(self):
-        self.listener = SerialCommunicationInterfaceListener()
+        self.listener = ArduinoSerialCommunicationInterfaceListener()
         self.observer = TestObserver()
 
     def testAttach(self):

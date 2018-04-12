@@ -3,7 +3,7 @@ from communicator.CommunicationInterfaceSender import CommunicationInterfaceSend
 from SingletonMetaclass import Singleton
 
 
-class SerialCommunicationInterfaceSender(CommunicationInterfaceSender):
+class ArduinoSerialCommunicationInterfaceSender(CommunicationInterfaceSender):
     """\
     Serial sending class, used to send messages to the MC of the ETs
     """
@@ -15,13 +15,13 @@ class SerialCommunicationInterfaceSender(CommunicationInterfaceSender):
             baudrate=9600,
             stopbits=serial.STOPBITS_ONE,
             bytesize=serial.EIGHTBITS,
-            timeout=1,
-            dsrdtr=True
+            timeout=1
         )
 
     def __write_string(self, message_string):
         if isinstance(message_string, str):
-            self.ser.write(message_string)
+            sent_message = message_string.strip('\r\n') + '\r\n'
+            self.ser.write(sent_message)
         else:
             raise TypeError('Variable messageString is not of type String')
 
