@@ -51,6 +51,7 @@ if __name__ == '__main__':
     controller = PiController()
     while controller.not_stopped:
         controller.control()
+        #TODO remove raw input and provide graceful shutdown possibility
         user_input = raw_input("Press Enter...")
         if user_input == "end":
             controller.not_stopped = False
