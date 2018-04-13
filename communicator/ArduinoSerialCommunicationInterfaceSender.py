@@ -20,8 +20,11 @@ class ArduinoSerialCommunicationInterfaceSender(CommunicationInterfaceSender):
 
     def __write_string(self, message_string):
         if isinstance(message_string, str):
-            sent_message = message_string.strip('\r\n') + '\r\n'
-            self.ser.write(sent_message)
+            message = message_string.strip('\r\n') + '\r\n'
+            buffer = self.__convert_to_arduino_buffer(message)
+            if len(buffer)>0:
+                for byte in buffer:
+                    self.ser.write(byte)
         else:
             raise TypeError('Variable messageString is not of type String')
 
@@ -31,3 +34,9 @@ class ArduinoSerialCommunicationInterfaceSender(CommunicationInterfaceSender):
         except TypeError as error:
             self.logger.error(error)
             raise
+
+    def __convert_to_arduino_buffer(self, message_string):
+        send_buffer = []
+        for character in message_string:
+            send_buffer.append(character.encode())
+        return send_buffer
