@@ -9,7 +9,7 @@ class SensorController(object):
     	"""Returns if target is found and the distance to the target in cm"""
 
     @abc.abstractmethod
-    def set_height(self):
+    def set_height(self, height):
         """Sets the current camera height"""
 
     @abc.abstractmethod
