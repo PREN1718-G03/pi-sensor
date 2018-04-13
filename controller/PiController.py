@@ -3,7 +3,6 @@ from communicator.CommunicatorFactory import CommunicatorFactory
 from communicator.CommunicationInterfaceListener import CommunicationInterfaceListener
 from communicator.CommunicationInterfaceSender import CommunicationInterfaceSender
 from camera_sensor.CameraSensorFactory import CameraSensorFactory
-from camera_sensor.SensorController import SensorController
 from controller.HeightSensor import HeightSensor
 import warnings
 
