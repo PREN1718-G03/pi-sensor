@@ -22,6 +22,7 @@ class PiController(CommunicationInterfaceObserver):
         self.__height_sensor = HeightSensor()
 
         if isinstance(self.__communication_interface_listener, CommunicationInterfaceListener):
+            print "Setting up listener"
             self.__communication_interface_listener.start()
             self.__communication_interface_listener.attach(self)
         else:
@@ -31,6 +32,7 @@ class PiController(CommunicationInterfaceObserver):
             warnings.warn("Sender is not subtype of CommunicationInterfaceSender")
 
     def close(self):
+        print "Cleaning up PiController object"
         self.__communication_interface_listener.stop()
         self.__height_sensor.close()
         self.__camera_sensor.close()
