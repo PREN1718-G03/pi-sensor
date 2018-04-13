@@ -13,6 +13,8 @@ class PiController(CommunicationInterfaceObserver):
         print received_message
 
     def __init__(self):
+        self.not_stopped = True
+
         self.__communication_interface_listener = CommunicatorFactory.get_communication_interface_listener()
         self.__communication_interface_sender = CommunicatorFactory.get_communication_interface_sender()
 
@@ -37,6 +39,20 @@ class PiController(CommunicationInterfaceObserver):
         self.__height_sensor.close()
         self.__camera_sensor.close()
 
+    def control(self):
+        height = self.__height_sensor.get_height()
+        self.__camera_sensor.set_height(height)
+        target_recognized, distance = self.__camera_sensor.get_target_and_distance()
+        if target_recognized:
+            print "Target recognized in a distance of " + str(distance) + " cm"
+        else:
+            print "Target not recognized"
+
 if __name__ == '__main__':
     controller = PiController()
+    while controller.not_stopped:
+        controller.control()
+        user_input = raw_input("Press Enter...")
+        if user_input == "end":
+            controller.not_stopped = False
     controller.close()
