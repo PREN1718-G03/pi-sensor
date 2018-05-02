@@ -50,7 +50,7 @@ class ArduinoSerialCommunicationInterfaceListener(threading.Thread, Communicatio
                 if len(byte_character) > 0:
                     if isinstance(byte_character, bytes):
                         if 0 < ord(byte_character) < 128:
-                            character = byte_character.decode()
+                            character = byte_character.decode('utf8')
                             serial_interface_buffer.append(character)
 
             if len(serial_interface_buffer) != 0:

@@ -38,5 +38,5 @@ class ArduinoSerialCommunicationInterfaceSender(CommunicationInterfaceSender):
     def __convert_to_arduino_buffer(self, message_string):
         send_buffer = []
         for character in message_string:
-            send_buffer.append(character.encode())
+            send_buffer.append(character)
         return send_buffer
