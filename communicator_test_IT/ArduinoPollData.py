@@ -4,6 +4,7 @@ from communicator.CommunicationInterfaceObserver import CommunicationInterfaceOb
 from communicator.CommunicationInterfaceSender import CommunicationInterfaceSender
 from communicator.CommunicatorFactory import CommunicatorFactory
 from controller.HeightSensor import HeightSensor
+from controller.DistanceToPillarSensor import DistanceToPillarSensor
 
 
 class ArduinoPollData(CommunicationInterfaceObserver):
@@ -24,7 +25,7 @@ class ArduinoPollData(CommunicationInterfaceObserver):
             print data_to_send
             self.__communication_interface_sender.send_message(data_to_send)
         else:
-            print received_message
+            print str(self) + " " + received_message
 
     def __transform_to_char_ints(self, value):
         result_value = int(round(value))
@@ -44,7 +45,7 @@ class ArduinoPollData(CommunicationInterfaceObserver):
         self.__communication_interface_sender = CommunicatorFactory.get_communication_interface_sender()
 
         self.__height_sensor = HeightSensor()
-        self.__distance_sensor = HeightSensor()
+        self.__distance_sensor = DistanceToPillarSensor()
 
         if isinstance(self.__communication_interface_listener, CommunicationInterfaceListener):
             print "Setting up listener"
@@ -58,7 +59,7 @@ class ArduinoPollData(CommunicationInterfaceObserver):
 
     def control(self):
         self.__height = self.__height_sensor.get_height()
-        self.__distance = self.__distance_sensor.get_height()
+        self.__distance = self.__distance_sensor.get_distance()
 
     def close(self):
         print "Cleaning up PiController object"
