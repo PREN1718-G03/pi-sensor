@@ -18,7 +18,7 @@ class DistanceToPillarSensor(object):
         # TODO Solve RuntimeWarning: This Channel already in use
         GPIO.setwarnings(False)
 
-    def get_distance(self):
+    def measure(self):
         height = 0.0
         GPIO.output(self.__GPIO_TRIGGER, True)
 
@@ -38,8 +38,15 @@ class DistanceToPillarSensor(object):
         time_elapsed = time_stop - time_start
         distance = (time_elapsed * 34300) / 2
 
-        time.sleep(0.05)
+        time.sleep(0.005)
         return distance
+
+    def get_distance(self):
+        measurement1 = self.measure()
+        measurement2 = self.measure()
+        measurement3 = self.measure()
+        average = (measurement1 + measurement2 + measurement3) / 3
+        return average
 
     def close(self):
         GPIO.cleanup()
