@@ -19,15 +19,14 @@ class DistanceToPillarSensor(object):
         GPIO.setwarnings(False)
 
     def measure(self):
-        height = 0.0
         GPIO.output(self.__GPIO_TRIGGER, True)
 
         # set trigger to LOW after 0.00001 seconds
         time.sleep(0.00001)
         GPIO.output(self.__GPIO_TRIGGER, False)
 
-        time_start = time.time()
-        time_stop = time.time()
+        time_start = 0.0
+        time_stop = 0.0
 
         while GPIO.input(self.__GPIO_ECHO) == 0:
             time_start = time.time()

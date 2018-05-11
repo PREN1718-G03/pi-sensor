@@ -6,6 +6,7 @@ from camera_sensor.CameraSensorFactory import CameraSensorFactory
 from controller.DistanceToPillarSensor import DistanceToPillarSensor
 from controller.HeightSensor import HeightSensor
 import warnings
+import daemon
 
 
 class PiController(CommunicationInterfaceObserver):
@@ -32,6 +33,9 @@ class PiController(CommunicationInterfaceObserver):
         upper_significant_byte_as_char = chr(int(integer_as_bitstring[:8], 2))
         lower_significant_byte_as_char = chr(int(integer_as_bitstring[8:], 2))
         return upper_significant_byte_as_char, lower_significant_byte_as_char
+
+    def print_debug_information(self):
+        print("Height: " + str(self.__height) + "; Distance: " + str(self.__distance) + "; Target: " + str(self.__distance_to_target))
 
     def __init__(self):
         self.not_stopped = True
@@ -67,9 +71,13 @@ class PiController(CommunicationInterfaceObserver):
         self.__camera_sensor.close()
 
     def control(self):
+        print("Get Height")
         self.__height = self.__height_sensor.get_height()
+
+        print("Get Distance")
         self.__distance = self.__distance_sensor.get_distance()
 
+        print("Calculating distance")
         self.__camera_sensor.set_height(self.__height)
         self.__target_recognised, distance = self.__camera_sensor.get_target_and_distance()
 
@@ -81,10 +89,7 @@ class PiController(CommunicationInterfaceObserver):
 
 if __name__ == '__main__':
     controller = PiController()
-    while controller.not_stopped:
+    while True:
         controller.control()
-        # TODO remove raw input and provide graceful shutdown possibility
-        user_input = raw_input("Press Enter...")
-        if user_input == "end":
-            controller.not_stopped = False
+        controller.print_debug_information()
     controller.close()

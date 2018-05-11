@@ -42,7 +42,7 @@ class PerspectiveDistanceCalculation(DistanceCalculation):
             else:
                 raise TypeError('target of type None')
         else:
-            raise AttributeError('height out of bounds for model')
+             print('height out of bounds for model')
 
     def __find_target_center(self):
         target_center = (0,0)
