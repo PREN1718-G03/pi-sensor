@@ -6,7 +6,6 @@ from camera_sensor.CameraSensorFactory import CameraSensorFactory
 from controller.DistanceToPillarSensor import DistanceToPillarSensor
 from controller.HeightSensor import HeightSensor
 import warnings
-import daemon
 
 
 class PiController(CommunicationInterfaceObserver):
@@ -35,7 +34,8 @@ class PiController(CommunicationInterfaceObserver):
         return upper_significant_byte_as_char, lower_significant_byte_as_char
 
     def print_debug_information(self):
-        print("Height: " + str(self.__height) + "; Distance: " + str(self.__distance) + "; Target: " + str(self.__distance_to_target))
+        print("Height: " + str(self.__height) + "; Distance: " + str(self.__distance) + "; Target: " + str(
+            self.__distance_to_target))
 
     def __init__(self):
         self.not_stopped = True
@@ -71,25 +71,21 @@ class PiController(CommunicationInterfaceObserver):
         self.__camera_sensor.close()
 
     def control(self):
-        print("Get Height")
         self.__height = self.__height_sensor.get_height()
 
-        print("Get Distance")
         self.__distance = self.__distance_sensor.get_distance()
 
-        print("Calculating distance")
         self.__camera_sensor.set_height(self.__height)
         self.__target_recognised, distance = self.__camera_sensor.get_target_and_distance()
 
-        if self.__target_recognised:
-            print "Target recognized in a distance of " + str(distance) + " cm"
-        else:
-            print "Target not recognized"
-
-
-if __name__ == '__main__':
+def main_loop():
     controller = PiController()
-    while True:
+    not_stopped = True
+    while not_stopped:
         controller.control()
         controller.print_debug_information()
     controller.close()
+
+
+if __name__ == '__main__':
+    main_loop()

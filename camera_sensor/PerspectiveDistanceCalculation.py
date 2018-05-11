@@ -27,22 +27,21 @@ class PerspectiveDistanceCalculation(DistanceCalculation):
         return True
 
     def __calculate_horizontal_distance(self, height):
-        if 50.0 <= height <= 90.0:
-            if self.__target is not None:
-                target_center = self.__find_target_center()
-                pixel_distance_to_target_center = numpy.sqrt(((target_center[0]) - self.__CENTER_COORDINATES[0]) ** 2
-                                     + ((target_center[1]) - self.__CENTER_COORDINATES[1]) ** 2)
-                a = 0.000115
-                b = 0.002585856 * height - 0.064546103
-                c = -2/75 * height + 3/5
-                # CM = a * px^2 + b * px + c
-                cm_distance_to_target_center = a * pixel_distance_to_target_center ** 2 \
-                                               + b * pixel_distance_to_target_center + c
-                return cm_distance_to_target_center
-            else:
-                raise TypeError('target of type None')
+        if height <= 50.0 or 90.0 <= height:
+            print('height out of bounds for model')
+        if self.__target is not None:
+            target_center = self.__find_target_center()
+            pixel_distance_to_target_center = numpy.sqrt(((target_center[0]) - self.__CENTER_COORDINATES[0]) ** 2
+                                 + ((target_center[1]) - self.__CENTER_COORDINATES[1]) ** 2)
+            a = 0.000115
+            b = 0.002585856 * height - 0.064546103
+            c = -2/75 * height + 3/5
+            # CM = a * px^2 + b * px + c
+            cm_distance_to_target_center = a * pixel_distance_to_target_center ** 2 \
+                                           + b * pixel_distance_to_target_center + c
+            return cm_distance_to_target_center
         else:
-             print('height out of bounds for model')
+            print ('target of type None')
 
     def __find_target_center(self):
         target_center = (0,0)
