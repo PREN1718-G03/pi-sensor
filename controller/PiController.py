@@ -71,9 +71,13 @@ class PiController(CommunicationInterfaceObserver):
         self.__camera_sensor.close()
 
     def control(self):
-        self.__height = self.__height_sensor.get_height()
+        measured_height = self.__height_sensor.get_height()
+        if 0 < measured_height < 500:
+            self.__height = measured_height
 
-        self.__distance = self.__distance_sensor.get_distance()
+        measured_distance = self.__distance_sensor.get_distance()
+        if 0 < measured_distance < 500:
+            self.__distance = measured_distance
 
         self.__camera_sensor.set_height(self.__height)
         self.__target_recognised, distance = self.__camera_sensor.get_target_and_distance()
