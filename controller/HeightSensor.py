@@ -27,12 +27,17 @@ class HeightSensor(object):
 
         time_start = 0.0
         time_stop = 0.0
-
-        while GPIO.input(self.__GPIO_ECHO) == 0:
+        time_start_measurement = time.time()
+        time_delta = 0.0
+        while GPIO.input(self.__GPIO_ECHO) == 0 and time_delta < 2:
             time_start = time.time()
+            time_delta = time_start - time_start_measurement
 
-        while GPIO.input(self.__GPIO_ECHO) == 1:
+        time_stop_measurement = time.time()
+        time_delta = 0.0
+        while GPIO.input(self.__GPIO_ECHO) == 1 and time_delta < 2:
             time_stop = time.time()
+            time_delta = time_stop - time_stop_measurement
 
         time_elapsed = time_stop - time_start
         height = (time_elapsed * 34300) / 2
