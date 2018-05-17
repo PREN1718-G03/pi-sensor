@@ -4,6 +4,7 @@ from controller.HeightSensor import HeightSensor
 import os
 import cv2
 
+
 class TestDistanceSensor():
     def __init__(self):
         filepath = os.path.join('/home/pi', 'Testlog.csv')
@@ -25,9 +26,15 @@ class TestDistanceSensor():
             str(distance1) + ", " + str(distance2) + ", " + str(distance3) + ", " + str(height1) + ", " + str(
                 height2) + ", " + str(height3))
 
-        average_distance = (distance1 + distance2 + distance3) / 3
+        if distance1 is None or distance2 is None or distance3 is None:
+            average_distance = None
+        else:
+            average_distance = (distance1 + distance2 + distance3) / 3
         print "Distance: " + str(average_distance) + " "
-        average_height = (height1 + height2 + height3) / 3
+        if height1 is None or height2 is None or height3 is None:
+            average_height = None
+        else:
+            average_height = (height1 + height2 + height3) / 3
 
         print "Height: " + str(average_height) + " "
 

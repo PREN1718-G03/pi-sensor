@@ -27,15 +27,12 @@ def test_get_multiple_measurements(filename, index):
 
     if not (distance1 is None or distance2 is None or distance3 is None):
         average_distance = (distance1 + distance2 + distance3) / 3
-
-    distance_difference = distance1 - average_distance
-    log_file.write("Difference: " + str(distance_difference) + '\n')
+        log_file.write(str(average_distance) + '\n')
 
     if not (height1 is None or height2 is None or height3 is None):
         average_height = (height1 + height2 + height3) / 3
+        log_file.write(str(average_height) + '\n')
 
-    height_difference = height1 - average_height
-    log_file.write("Difference: " + str(height_difference) + '\n')
     log_file.close()
 
 

@@ -1,11 +1,9 @@
-import abc
 import time
 
 from RPi import GPIO
 
 
 class UltraSonicSensor(object):
-    __metaclass__ = abc.ABCMeta
 
     def __init__(self, gpio_trigger, gpio_echo):
         # define GPIO pins
@@ -38,14 +36,14 @@ class UltraSonicSensor(object):
         while GPIO.input(self.__GPIO_ECHO) == 0 and not measurement_stopped:
             time_start = time.time()
             time_delta = time_start - time_start_measurement
-            if time_delta < 2:
+            if time_delta > 2:
                 measurement_stopped = True
 
         time_stop_measurement = time.time()
         while GPIO.input(self.__GPIO_ECHO) == 1 and not measurement_stopped:
             time_stop = time.time()
             time_delta = time_stop - time_stop_measurement
-            if time_delta < 2:
+            if time_delta > 2:
                 measurement_stopped = True
 
         time_elapsed = time_stop - time_start
