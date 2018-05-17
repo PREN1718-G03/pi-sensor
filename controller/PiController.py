@@ -1,3 +1,7 @@
+import sys
+import os
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from communicator.CommunicationInterfaceObserver import CommunicationInterfaceObserver
 from communicator.CommunicatorFactory import CommunicatorFactory
 from communicator.CommunicationInterfaceListener import CommunicationInterfaceListener
@@ -38,11 +42,12 @@ class PiController(CommunicationInterfaceObserver):
             self.__distance_to_target))
 
     def __init__(self):
+        super(PiController, self).__init__()
         self.not_stopped = True
-        self.__height = 0
-        self.__distance = 0
+        self.__height = 0.0
+        self.__distance = 0.0
         self.__target_recognised = False
-        self.__distance_to_target = 0
+        self.__distance_to_target = 0.0
 
         self.__communication_interface_listener = CommunicatorFactory.get_communication_interface_listener()
         self.__communication_interface_sender = CommunicatorFactory.get_communication_interface_sender()
@@ -82,13 +87,17 @@ class PiController(CommunicationInterfaceObserver):
         self.__camera_sensor.set_height(self.__height)
         self.__target_recognised, distance = self.__camera_sensor.get_target_and_distance()
 
+
 def main_loop():
     controller = PiController()
     not_stopped = True
-    while not_stopped:
-        controller.control()
-        controller.print_debug_information()
-    controller.close()
+    try:
+        while not_stopped:
+            controller.control()
+            controller.print_debug_information()
+    except (KeyboardInterrupt, SystemExit):
+        controller.close()
+        raise
 
 
 if __name__ == '__main__':
