@@ -1,3 +1,4 @@
+import datetime
 import sys
 import os
 
@@ -16,18 +17,20 @@ class PiController(CommunicationInterfaceObserver):
     # Implementation of SerialInterfaceObserver methods
     def update(self, received_message):
         if received_message == "SendData":
-            print "Received request for data from ET board"
+            self.__file.write("Received request for data from ET board")
             data_to_send = ''
-            usb, lsb = self.__transform_to_char_ints(self.__distance)
+            usb, lsb = self.__transform_to_char_ints(self.__distance * 10)
             data_to_send = usb + lsb
-            usb, lsb = self.__transform_to_char_ints(self.__height)
+            usb, lsb = self.__transform_to_char_ints(self.__height * 10)
             data_to_send = data_to_send + usb + lsb
             if self.__target_recognised:
-                usb, lsb = self.__transform_to_char_ints(self.__distance_to_target)
+                # Add 18 cm, as the camera is in front
+                distance_to_send = self.__distance_to_target + 18.0
+                usb, lsb = self.__transform_to_char_ints(distance_to_send * 10)
                 data_to_send = data_to_send + usb + lsb
             else:
                 data_to_send = data_to_send + chr(255) + chr(255)
-            print data_to_send
+                self.__file.write(data_to_send)
             self.__communication_interface_sender.send_message(data_to_send)
 
     def __transform_to_char_ints(self, value):
@@ -38,7 +41,7 @@ class PiController(CommunicationInterfaceObserver):
         return upper_significant_byte_as_char, lower_significant_byte_as_char
 
     def print_debug_information(self):
-        print("Height: " + str(self.__height) + "; Distance: " + str(self.__distance) + "; Target: " + str(
+        self.__file.write("Height: " + str(self.__height) + "; Distance: " + str(self.__distance) + "; Target: " + str(
             self.__distance_to_target))
 
     def __init__(self):
@@ -48,6 +51,11 @@ class PiController(CommunicationInterfaceObserver):
         self.__distance = 0.0
         self.__target_recognised = False
         self.__distance_to_target = 0.0
+
+        file = '/home/pi/logs/us_log' + str(datetime.datetime.now()) + '.log'
+        with open(file, 'w') as logfile:
+            logfile.write(str(datetime.datetime.now()) + '\n')
+        self.__file = open(file, 'a')
 
         self.__communication_interface_listener = CommunicatorFactory.get_communication_interface_listener()
         self.__communication_interface_sender = CommunicatorFactory.get_communication_interface_sender()
@@ -59,17 +67,20 @@ class PiController(CommunicationInterfaceObserver):
         self.__distance_sensor = DistanceToPillarSensor()
 
         if isinstance(self.__communication_interface_listener, CommunicationInterfaceListener):
-            print "Setting up listener"
+            self.__file.write("Setting up listener")
             self.__communication_interface_listener.start()
             self.__communication_interface_listener.attach(self)
         else:
+            self.__file.write("Listener not started!")
             warnings.warn("Listener not started", RuntimeWarning)
 
         if not isinstance(self.__communication_interface_sender, CommunicationInterfaceSender):
+            self.__file.write("Sender is not subtype of CommunicationInterfaceSender")
             warnings.warn("Sender is not subtype of CommunicationInterfaceSender")
 
     def close(self):
-        print "Cleaning up PiController object"
+        self.__file.write("Cleaning up PiController object")
+        self.__file.close()
         self.__communication_interface_listener.stop()
         self.__height_sensor.close()
         self.__distance_sensor.close()
