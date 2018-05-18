@@ -1,8 +1,8 @@
-import datetime
 import sys
 import os
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from controller.LogFileWriter import LogFileWriter
 from communicator.CommunicationInterfaceObserver import CommunicationInterfaceObserver
 from communicator.CommunicatorFactory import CommunicatorFactory
 from communicator.CommunicationInterfaceListener import CommunicationInterfaceListener
@@ -17,7 +17,7 @@ class PiController(CommunicationInterfaceObserver):
     # Implementation of SerialInterfaceObserver methods
     def update(self, received_message):
         if received_message == "SendData":
-            self.__file.write("Received request for data from ET board")
+            self.__logger.info("Received request for data from ET board")
             data_to_send = ''
             usb, lsb = self.__transform_to_char_ints(self.__distance * 10)
             data_to_send = usb + lsb
@@ -30,7 +30,7 @@ class PiController(CommunicationInterfaceObserver):
                 data_to_send = data_to_send + usb + lsb
             else:
                 data_to_send = data_to_send + chr(255) + chr(255)
-                self.__file.write(data_to_send)
+                self.__logger.info(data_to_send)
             self.__communication_interface_sender.send_message(data_to_send)
 
     def __transform_to_char_ints(self, value):
@@ -41,7 +41,7 @@ class PiController(CommunicationInterfaceObserver):
         return upper_significant_byte_as_char, lower_significant_byte_as_char
 
     def print_debug_information(self):
-        self.__file.write("Height: " + str(self.__height) + "; Distance: " + str(self.__distance) + "; Target: " + str(
+        self.__logger.info("Height: " + str(self.__height) + "; Distance: " + str(self.__distance) + "; Target: " + str(
             self.__distance_to_target))
 
     def __init__(self):
@@ -52,10 +52,7 @@ class PiController(CommunicationInterfaceObserver):
         self.__target_recognised = False
         self.__distance_to_target = 0.0
 
-        file = '/home/pi/logs/us_log' + str(datetime.datetime.now()) + '.log'
-        with open(file, 'w') as logfile:
-            logfile.write(str(datetime.datetime.now()) + '\n')
-        self.__file = open(file, 'a')
+        self.__logger = LogFileWriter()
 
         self.__communication_interface_listener = CommunicatorFactory.get_communication_interface_listener()
         self.__communication_interface_sender = CommunicatorFactory.get_communication_interface_sender()
@@ -67,20 +64,20 @@ class PiController(CommunicationInterfaceObserver):
         self.__distance_sensor = DistanceToPillarSensor()
 
         if isinstance(self.__communication_interface_listener, CommunicationInterfaceListener):
-            self.__file.write("Setting up listener")
+            self.__logger.info("Setting up listener")
             self.__communication_interface_listener.start()
             self.__communication_interface_listener.attach(self)
         else:
-            self.__file.write("Listener not started!")
+            self.__logger.warn("Listener not started!")
             warnings.warn("Listener not started", RuntimeWarning)
 
         if not isinstance(self.__communication_interface_sender, CommunicationInterfaceSender):
-            self.__file.write("Sender is not subtype of CommunicationInterfaceSender")
+            self.__logger.warn("Sender is not subtype of CommunicationInterfaceSender")
             warnings.warn("Sender is not subtype of CommunicationInterfaceSender")
 
     def close(self):
-        self.__file.write("Cleaning up PiController object")
-        self.__file.close()
+        self.__logger.info("Cleaning up PiController object")
+        self.__logger.close()
         self.__communication_interface_listener.stop()
         self.__height_sensor.close()
         self.__distance_sensor.close()
