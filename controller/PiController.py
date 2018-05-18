@@ -19,9 +19,11 @@ class PiController(CommunicationInterfaceObserver):
         if received_message == "SendData":
             self.__logger.info("Received request for data from ET board")
             data_to_send = ''
-            usb, lsb = self.__transform_to_char_ints(self.__distance * 10)
-            data_to_send = usb + lsb
             usb, lsb = self.__transform_to_char_ints(self.__height * 10)
+            data_to_send = usb + lsb
+            # Add 14cm, as the sensor is not in the middle
+            actual_distance = self.__distance + 14
+            usb, lsb = self.__transform_to_char_ints(actual_distance * 10)
             data_to_send = data_to_send + usb + lsb
             if self.__target_recognised:
                 # Add 18 cm, as the camera is in front
