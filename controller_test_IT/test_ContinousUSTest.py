@@ -39,8 +39,7 @@ def test_get_multiple_measurements(filename, index):
 if __name__ == '__main__':
     distance_sensor = DistanceToPillarSensor()
     height_sensor = HeightSensor()
-    home = os.chdir('/home/pi/logs')
-    file = 'us_log.txt'
+    file = '/home/pi/logs/us_log' + str(datetime.datetime.now()) + '.log'
     with open(file, 'w') as logfile:
         logfile.write(str(datetime.datetime.now()) + '\n')
     index = 1

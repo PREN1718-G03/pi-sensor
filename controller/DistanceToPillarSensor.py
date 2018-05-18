@@ -3,7 +3,7 @@ from controller.UltraSonicSensor import UltraSonicSensor
 
 class DistanceToPillarSensor(UltraSonicSensor):
     def __init__(self):
-        super(DistanceToPillarSensor, self).__init__(5, 6)
+        super(DistanceToPillarSensor, self).__init__(17, 27)
 
     def measure(self):
         return super(DistanceToPillarSensor, self).measure()
